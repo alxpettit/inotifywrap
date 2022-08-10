@@ -1,7 +1,7 @@
 mod shell;
 
 use shell::shell;
-use std::env;
+use std::{env, io};
 
 extern crate pretty_env_logger;
 #[macro_use] extern crate log;
@@ -36,10 +36,8 @@ impl App {
         pretty_env_logger::init();
 
         
-        // init local vars
         let args: Vec<String> = env::args().skip(1).collect();
 
-        // parse args
         for arg in args {
             self.handle_arg(arg);
         }
@@ -57,10 +55,12 @@ impl App {
 
     fn run_child_process(&self, p: &String) {
         let res = shell(&p, &self.child_args);
-        if res.is_err() {
-
+        match res {
+            Err(e) => {
+                error!("{}", e.to_string());
+            }
+            Ok(_) => todo!(),
         }
-        println!("{:#?}", res);
     }
 
     fn handle_flag(&self, flag: &String) {
