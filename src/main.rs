@@ -55,7 +55,7 @@ fn main() {
 
 fn handle_flag(flag: &String) {
     if let Some(split_values) = flag.split_once("=") {
-        let key = split_values.0;
+        let key = split_values.0.trim_start_matches('-');
         let value = split_values.1;
 
         println!("key: {} value: {}", key, value);
